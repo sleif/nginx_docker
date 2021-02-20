@@ -1,0 +1,4 @@
+---
+container_storage_dir_base: '/srv'
+
+DOCKER_NETWORK_NAME: "custom-bridge"
