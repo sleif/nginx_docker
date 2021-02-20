@@ -5,29 +5,34 @@
   file:
     state: directory
     path: '{{ container_storage_dir_base }}/nginx_for_{{ VIRTUAL_HOST }}/html/.well-known'
+    mode: 0644
 
 - name: 'Create {{ container_storage_dir_base }}/nginx_for_{{ VIRTUAL_HOST }}/conf/'
   file:
     state: directory
     path: '{{ container_storage_dir_base }}/nginx_for_{{ VIRTUAL_HOST }}/conf'
+    mode: 0755
 
 - name: 'Copy index.html if none exists yet.'
   copy:
     src: 'index.html'
     dest: '{{ container_storage_dir_base }}/nginx_for_{{ VIRTUAL_HOST }}/html/index.html'
-    force: no
+    force: false
+    mode: 0644
 
 - name: 'Copy individual for nginx-conf if none exists yet.'
   copy:
     src: 'individual.conf'
     dest: '{{ container_storage_dir_base }}/nginx_for_{{ VIRTUAL_HOST }}/conf/individual.conf'
-    force: no
+    force: false
+    mode: 0644
 
 - name: 'Copy dnt-policy.txt and force overwrite.'
   copy:
     src: 'dnt-policy.txt'
     dest: '{{ container_storage_dir_base }}/nginx_for_{{ VIRTUAL_HOST }}/html/.well-known/dnt-policy.txt'
-    force: yes
+    force: true
+    mode: 0644
 
 - name: 'Start nginx for {{ VIRTUAL_HOST }}'
   docker_container:
@@ -35,14 +40,14 @@
     image: nginx:alpine
     state: started
     restart_policy: always
-    recreate: yes
-    #restart: yes
-    pull: yes
+    recreate: true
+    # restart: true
+    pull: true
     networks:
       - name: "{{ DOCKER_NETWORK_NAME }}"
         aliases:
           - 'nginx_for_{{ VIRTUAL_HOST | replace(",", "-") }}-container'
-    networks_cli_compatible: yes
+    networks_cli_compatible: true
     security_opts: label:type:docker_t
     volumes:
       - '{{ container_storage_dir_base }}/nginx_for_{{ VIRTUAL_HOST }}/html:/usr/share/nginx/html:ro,Z'

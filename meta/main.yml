@@ -3,7 +3,7 @@ galaxy_info:
   role_name: nginx_docker
   author: Sebastian Berthold
   description: starts a nginx instance on docker
-  #company: your company (optional)
+  # company: your company (optional)
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
@@ -59,4 +59,4 @@ galaxy_info:
 
 
 dependencies:
-  - { role: sleif.docker }
+  - {role: sleif.docker}
